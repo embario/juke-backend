@@ -1,8 +1,9 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
+from juke_auth.models import JukeUser
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+class JukeUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'groups']
+        model = JukeUser
+        fields = ['url', 'username', 'email', 'groups', 'is_active']

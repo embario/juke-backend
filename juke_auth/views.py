@@ -1,13 +1,13 @@
-from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from juke_auth.serializers import UserSerializer
+from juke_auth.serializers import JukeUserSerializer
+from juke_auth.models import JukeUser
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class JukeUserViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint that allows Juke users to be viewed or edited.
     """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
+    queryset = JukeUser.objects.all().order_by('-date_joined')
+    serializer_class = JukeUserSerializer
     permission_classes = [permissions.IsAuthenticated]
