@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  db:
+    image: circleci/postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - CIRCLECI
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  web:
+    build: .
+    command: bash run_dev.sh
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - CIRCLECI
+      - DJANGO_SECRET_KEY=abc123abc123abc123abc123abc123

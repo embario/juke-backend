@@ -10,19 +10,19 @@ jobs:
       - run:
           name: Bring up all services
           command: |
-            docker-compose pull
-            docker-compose build web
-            docker-compose up -d
+            docker-compose -f docker-compose.ci.yml pull
+            docker-compose -f docker-compose.ci.yml build web
+            docker-compose -f docker-compose.ci.yml up -d
             docker ps
       - run:
           name: Flake8
           command: |
-            docker-compose exec web flake8
+            docker-compose -f docker-compose.ci.yml exec web flake8
       - run:
           name:  Missing Migration Check
           command: |
-            docker-compose exec web python manage.py makemigrations --check --no-input
+            docker-compose -f docker-compose.ci.yml exec web python manage.py makemigrations --check --no-input
       - run:
           name: Run tests
           command: |
-            docker-compose exec web python manage.py test
+            docker-compose -f docker-compose.ci.yml exec web python manage.py test
