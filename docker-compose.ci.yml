@@ -5,11 +5,9 @@ services:
     image: circleci/postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
+    env_file: template.env
     environment:
       - CIRCLECI
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
 
   web:
     build: .
@@ -18,8 +16,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    env_file: template.env
     environment:
       - CIRCLECI
       - DJANGO_SECRET_KEY=abc123abc123abc123abc123abc123
-      - EMAIL_HOST_USER=some_host_user@test.com
-      - EMAIL_HOST_PASSWORD=some-password
