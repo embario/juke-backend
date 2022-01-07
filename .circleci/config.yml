@@ -1,0 +1,28 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.10
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Bring up all services
+          command: |
+            docker-compose pull
+            docker-compose build web
+            docker-compose up -d
+            docker ps
+      - run:
+          name: Flake8
+          command: |
+            docker-compose exec web flake8
+      - run:
+          name:  Missing Migration Check
+          command: |
+            docker-compose exec web python manage.py makemigrations --check --no-input
+      - run:
+          name: Run tests
+          command: |
+            docker-compose exec web python manage.py test
