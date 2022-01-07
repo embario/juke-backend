@@ -21,3 +21,5 @@ services:
     environment:
       - CIRCLECI
       - DJANGO_SECRET_KEY=abc123abc123abc123abc123abc123
+      - EMAIL_HOST_USER=some_host_user@test.com
+      - EMAIL_HOST_PASSWORD=some-password
