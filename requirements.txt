@@ -2,7 +2,9 @@ django
 djangorestframework
 django-filter
 django-extensions
+django-rest-registration
 markdown
 psycopg2
 flake8
 ipython
+ipdb

@@ -27,12 +27,30 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "juke_auth.JukeUser"
 
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_USE_TLS=True
-EMAIL_PORT=587
-EMAIL_HOST_USER=os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD=os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+REST_REGISTRATION = {
+    'REGISTER_VERIFICATION_ENABLED': True,
+    'REGISTER_EMAIL_VERIFICATION_ENABLED': True,
+    'RESET_PASSWORD_VERIFICATION_ENABLED': True,
+
+    'REGISTER_VERIFICATION_URL': 'https://frontend-host/verify-user/',
+    'RESET_PASSWORD_VERIFICATION_URL': 'https://frontend-host/reset-password/',
+    'REGISTER_EMAIL_VERIFICATION_URL': 'https://frontend-host/verify-email/',
+
+    'VERIFICATION_FROM_EMAIL': os.environ.get("EMAIL_HOST_USER"),
+
+    'REGISTER_VERIFICATION_EMAIL_TEMPLATES': {
+        'subject': 'juke_auth/register/subject.txt',
+        'text_body': 'juke_auth/register/body.html',
+    }
+}
 
 # Application definition
 
@@ -44,9 +62,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_registration',
     'django_filters',
     'django_extensions',
-    'app',
+    'juke_auth',
 ]
 
 MIDDLEWARE = [

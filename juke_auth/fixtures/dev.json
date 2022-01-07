@@ -1,6 +1,6 @@
 [
 	{
-	    "model": "auth.user",
+	    "model": "juke_auth.JukeUser",
 	    "pk": 1,
 	    "fields": {
 	        "password": "pbkdf2_sha256$320000$hkE7h33AxgDLyOlLoihQbc$kVNDP9alZb4IvZsD+67EjFlD0iYemOP88VYorVeaEXU=",
@@ -9,7 +9,7 @@
 	        "username": "super_user",
 	        "first_name": "",
 	        "last_name": "",
-	        "email": "",
+	        "email": "super_user@test.com",
 	        "is_staff": true,
 	        "is_active": true,
 	        "date_joined": "2022-01-04T16:22:31.508Z",
@@ -18,7 +18,7 @@
 	    }
 	},
 	{
-	    "model": "auth.user",
+	    "model": "juke_auth.JukeUser",
 	    "pk": 2,
 	    "fields": {
 	        "password": "pbkdf2_sha256$320000$hkE7h33AxgDLyOlLoihQbc$kVNDP9alZb4IvZsD+67EjFlD0iYemOP88VYorVeaEXU=",
@@ -27,7 +27,7 @@
 	        "username": "test_user",
 	        "first_name": "",
 	        "last_name": "",
-	        "email": "",
+	        "email": "test_user@test.com",
 	        "is_staff": false,
 	        "is_active": true,
 	        "date_joined": "2022-01-04T16:22:31.508Z",
