@@ -26,7 +26,7 @@ jobs:
           name:  Docker PS
           command: |
             docker ps
-            docker-compose -f docker-compose.ci.yml logs -f
+            docker-compose -f docker-compose.ci.yml logs db
       - run:
           name: Run tests
           command: |
