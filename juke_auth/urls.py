@@ -10,5 +10,7 @@ router.register(r'users', views.JukeUserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('accounts/', include('rest_registration.api.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('social-login/', views.SocialAuth.as_view(), name='social_login'),
+
 ]
