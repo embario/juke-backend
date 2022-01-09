@@ -23,11 +23,6 @@ jobs:
           command: |
             docker-compose -f docker-compose.ci.yml exec web python manage.py makemigrations --check --no-input
       - run:
-          name:  Docker PS
-          command: |
-            docker ps
-            docker-compose -f docker-compose.ci.yml logs db
-      - run:
           name: Run tests
           command: |
             docker-compose -f docker-compose.ci.yml exec web python manage.py test
