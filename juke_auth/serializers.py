@@ -8,4 +8,4 @@ class JukeUserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = JukeUser
-        fields = ['url', 'username', 'email', 'groups', 'is_active']
+        fields = ['url', 'username', 'email', 'groups', 'is_active', 'token']
