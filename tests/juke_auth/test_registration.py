@@ -1,8 +1,9 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from tests.utils import REGISTRATION_VERIFY_RE
 from juke_auth.models import JukeUser
+
+from tests.utils import REGISTRATION_VERIFY_RE
 
 
 class TestRegistration(APITestCase):
@@ -87,6 +88,7 @@ class TestRegistration(APITestCase):
         response = self.client.post(self.register_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertFalse(JukeUser.objects.get(username='test').is_active)
+        self.assertIsNotNone(JukeUser.objects.get(username='test').auth_token)
         self.assertEqual(len(outbox), 1)
         self.assertEqual("Welcome to Juke! Please verify your Account", outbox[0].subject)
         self.assertIn("Welcome to Juke! Let's get listening.", outbox[0].body)
@@ -139,6 +141,7 @@ class TestRegistration(APITestCase):
         # User should be inactive
         new_user = JukeUser.objects.get(username='test')
         self.assertFalse(new_user.is_active)
+        self.assertIsNotNone(new_user.auth_token)
 
         # Splice out verification data from email body
         verify_url = outbox[0].body.split("<a href=\"")[-1].split("\">here</a>")[0]
