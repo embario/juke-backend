@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from juke_auth.models import JukeUser
+from juke_auth.models import JukeUser, MusicProfile
 
 
 class JukeUserSerializer(serializers.HyperlinkedModelSerializer):
@@ -9,3 +9,11 @@ class JukeUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = JukeUser
         fields = ['url', 'username', 'email', 'groups', 'is_active', 'token']
+
+
+class MusicProfileSerializer(serializers.HyperlinkedModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=JukeUser.objects.all())
+
+    class Meta:
+        model = MusicProfile
+        fields = "__all__"
