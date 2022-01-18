@@ -4,6 +4,7 @@ from juke_auth import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.JukeUserViewSet)
+router.register(r'music-profiles', views.MusicProfileViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

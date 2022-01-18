@@ -5,8 +5,8 @@ from rest_framework.response import Response
 
 from social_django.utils import load_backend, load_strategy
 
-from juke_auth.serializers import JukeUserSerializer
-from juke_auth.models import JukeUser
+from juke_auth.serializers import JukeUserSerializer, MusicProfileSerializer
+from juke_auth.models import JukeUser, MusicProfile
 
 
 logger = logging.Logger(__name__)
@@ -20,6 +20,12 @@ class JukeUserViewSet(viewsets.ModelViewSet):
     """
     queryset = JukeUser.objects.all().order_by('-date_joined')
     serializer_class = JukeUserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class MusicProfileViewSet(viewsets.ModelViewSet):
+    queryset = MusicProfile.objects.all()
+    serializer_class = MusicProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
