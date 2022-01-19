@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
             name='ArtistImageResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to='downloads/artists/')),
+                ('image', models.ImageField(upload_to='static/media/artists/')),
                 ('artist', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='images', to='catalog.artist')),
             ],
         ),
@@ -97,7 +97,7 @@ class Migration(migrations.Migration):
             name='AlbumImageResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to='downloads/albums/')),
+                ('image', models.ImageField(upload_to='static/media/albums/')),
                 ('album', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='images', to='catalog.album')),
             ],
         ),

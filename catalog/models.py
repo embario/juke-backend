@@ -55,10 +55,10 @@ class ImageResource(models.Model):
 
 
 class ArtistImageResource(models.Model):
-    image = models.ImageField(upload_to='downloads/artists/')
+    image = models.ImageField(upload_to='static/media/artists/')
     artist = models.ForeignKey(Artist, related_name='images', on_delete=models.PROTECT)
 
 
 class AlbumImageResource(models.Model):
-    image = models.ImageField(upload_to='downloads/albums/')
+    image = models.ImageField(upload_to='static/media/albums/')
     album = models.ForeignKey(Album, related_name='images', on_delete=models.PROTECT)
