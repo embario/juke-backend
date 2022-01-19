@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_extensions',
     'juke_auth',
+    'catalog',
 ]
 
 MIDDLEWARE = [
