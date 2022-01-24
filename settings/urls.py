@@ -10,6 +10,7 @@ router = routers.DefaultRouter()
 router.registry.extend(auth_router.registry)
 router.registry.extend(catalog_router.registry)
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('juke_auth.urls')),
