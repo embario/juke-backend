@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from catalog import serializers, controller
 from catalog.models import Genre, Artist, Album, Track
@@ -7,14 +7,15 @@ from catalog.models import Genre, Artist, Album, Track
 
 class MusicResourceViewSet(viewsets.ReadOnlyModelViewSet):
     def list(self, request):
-        import ipdb; ipdb.set_trace()
         if 'external' in request.GET and bool(request.GET['external']) is True:
-            return controller.route(request.path, request.GET['q'])
+            res = controller.route(request)
+            return Response(res.data)
         return super().list(request)
 
     def get_object(self):
-        if 'external' in request.GET and bool(request.GET['external']) is True:
-            return controller.route(self.request.path, pk=self.lookup_field)
+        if 'external' in self.request.GET and bool(self.request.GET['external']) is True:
+            res = controller.route(self.request)
+            return res.instance
         return super().get_object()
 
 

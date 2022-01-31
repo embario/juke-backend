@@ -1,32 +1,34 @@
 import abc
 import typing
 
+from django.http import HttpRequest
+
+from catalog.api_clients import SpotifyAPIClient
+
 
 class ResourceStrategy(abc.ABC):
-    def __init__(self, path, data):
-        self.path = path
-        self.data = data
+    def __init__(self, request: HttpRequest) -> None:
+        self.request = request
+        self.path = request.path
+        self.data = request.data | request.GET
 
     @abc.abstractmethod
-    def route(self) -> typing.List[typing.Any]:
+    def route(self) -> typing.Any:
         pass
 
 
 class ExternalResourceStrategy(ResourceStrategy):
-    def route(self) -> typing.List[typing.Any]:
-
-
+    def route(self) -> typing.Any:
+        client = SpotifyAPIClient(self)
+        response = client.perform_request()
+        return response
 
 
 class InternalResourceStrategy(ResourceStrategy):
     pass
 
 
-def route(path: str, data: dict) -> typing.Any:
-    import ipdb; ipdb.set_trace()
-
-    match path:
-        case '/api/v1/genres/' | '/api/v1/artists/' | '/api/v1/albums/' | '/api/v1/tracks/':
-            response = ExternalResourceStrategy(path, data).route()
-        case _:
-            raise Exception("Not found")
+def route(request: HttpRequest) -> typing.Any:
+    strategy = ExternalResourceStrategy(request)
+    response = strategy.route()
+    return response

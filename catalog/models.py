@@ -9,6 +9,7 @@ CHOICES_ALBUM_TYPE = (
 
 class MusicResource(models.Model):
     """ Generic class for all music-related resource models. """
+    spotify_id = models.CharField(max_length=30, blank=False, null=False, unique=True, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     spotify_data = models.JSONField(null=True, default=dict)
@@ -16,6 +17,9 @@ class MusicResource(models.Model):
 
     class Meta:
         abstract = True
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: {self.name}>"
 
 
 class Genre(MusicResource):
@@ -30,9 +34,42 @@ class Artist(MusicResource):
 class Album(MusicResource):
     name = models.CharField(blank=False, null=False, max_length=1024)
     artists = models.ManyToManyField(Artist, related_name='albums')
-    album_type = models.CharField(blank=False, null=False, default=CHOICES_ALBUM_TYPE[0][0], choices=CHOICES_ALBUM_TYPE, max_length=12)
+    album_type = models.CharField(
+        blank=False,
+        null=False,
+        default=CHOICES_ALBUM_TYPE[0][0],
+        choices=CHOICES_ALBUM_TYPE,
+        max_length=12,
+    )
+
     total_tracks = models.IntegerField(null=False)
     release_date = models.DateField(null=False)
+
+    @staticmethod
+    def get_or_create_with_validated_data(data):
+        try:
+            instance = Album.objects.get(
+                name=data['name'],
+                spotify_id=data['id'],
+            )
+
+            instance.name = data['name']
+            instance.spotify_id = data['id']
+            instance.total_tracks = data['total_tracks']
+            instance.release_date = data['release_date']
+            instance.save()
+            created = False
+
+        except Album.DoesNotExist:
+            instance = Album.objects.create(
+                name=data['name'],
+                spotify_id=data['id'],
+                album_type=data['album_type'].upper(),
+                total_tracks=data['total_tracks'],
+                release_date=data['release_date'],
+            )
+            created = True
+        return instance, created
 
 
 class Track(MusicResource):
@@ -45,6 +82,35 @@ class Track(MusicResource):
 
     class Meta:
         unique_together = ('album', 'track_number')
+
+    @staticmethod
+    def get_or_create_with_validated_data(album, data):
+        try:
+            instance = Track.objects.get(
+                name=data['name'],
+                spotify_id=data['id'],
+            )
+
+            instance.name = data['name']
+            instance.spotify_id = data['id']
+            instance.track_number = data['track_number']
+            instance.disc_number = data['disc_number']
+            instance.duration_ms = data['duration_ms']
+            instance.explicit = data['explicit']
+            created = False
+
+        except Track.DoesNotExist:
+            instance = Track.objects.create(
+                name=data['name'],
+                album=album,
+                spotify_id=data['id'],
+                track_number=data['track_number'],
+                disc_number=data['disc_number'],
+                duration_ms=data['duration_ms'],
+                explicit=data['explicit']
+            )
+            created = True
+        return instance, created
 
 
 class ImageResource(models.Model):
