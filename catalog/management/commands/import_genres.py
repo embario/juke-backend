@@ -8,8 +8,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             with open('genres.txt', 'r') as genres_f:
-                for genre_name in genres_f.readlines():
-                    g1 = Genre.objects.create(name=genre_name.strip('\n'))
+                for idx, genre_name in enumerate(genres_f.readlines()):
+                    g1 = Genre.objects.create(name=genre_name.strip('\n'), spotify_id=f'fake-spotify-id-{idx}')
                     self.stdout.write(self.style.SUCCESS(f"Genre '{g1.name}' added."))
 
         except Exception as e:
