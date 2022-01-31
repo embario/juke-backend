@@ -19,4 +19,6 @@ services:
     env_file: test.env
     environment:
       - CIRCLECI
+      - SOCIAL_AUTH_SPOTIFY_KEY
+      - SOCIAL_AUTH_SPOTIFY_SECRET      
       - DJANGO_SECRET_KEY=abc123abc123abc123abc123abc123
